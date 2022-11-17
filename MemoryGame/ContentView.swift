@@ -11,23 +11,52 @@ struct ContentView: View {
     var body: some View {
         VStack{
             HStack{
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25)
-                        .stroke(lineWidth: 3)
-                        .foregroundColor(.orange)
-                    Image(systemName: "suit.spade.fill").renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(20)
-                }
+                CardView(imageName: "suit.spade.fill")
+                CardView(imageName: "suit.spade.fill")
+                CardView(imageName: "suit.diamond.fill")
+                CardView(imageName: "suit.diamond.fill")
             }
-            .padding(.horizontal)
+            HStack{
+                CardView(imageName: "suit.heart.fill")
+                CardView(imageName: "suit.heart.fill")
+                CardView(imageName: "suit.club.fill")
+                CardView(imageName: "suit.club.fill")
+            }
+            HStack{
+                CardView(imageName: "star.fill")
+                CardView(imageName: "star.fill")
+                CardView(imageName: "diamond.circle.fill")
+                CardView(imageName: "diamond.circle.fill")
+            }
+            HStack{
+                CardView(imageName: "star.square.fill")
+                CardView(imageName: "star.square.fill")
+                CardView(imageName: "heart.circle.fill")
+                CardView(imageName: "heart.circle.fill")
+            }
         }
+        .padding(.horizontal)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct CardView: View {
+    var imageName: String
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 25)
+                .stroke(lineWidth: 3)
+                .foregroundColor(.orange)
+            Image(systemName: "\(imageName)").renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding(20)
+        }
     }
 }
