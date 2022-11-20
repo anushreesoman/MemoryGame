@@ -8,51 +8,49 @@
 import SwiftUI
 
 struct ContentView: View {
+    let cardFaces = ["suit.spade.fill", "suit.diamond.fill", "suit.heart.fill", "suit.club.fill", "suit.heart", "suit.club", "suit.diamond", "suit.spade", "airplane", "car", "bus", "tram", "cablecar", "ferry", "scooter", "bicycle", "sailboat", "figure.walk", "car.2", "bus.doubledecker.fill", "star.fill", "star.square.fill", "heart.circle.fill", "bolt.fill", "camera.on.rectangle.fill", "photo", "eye.fill"]
+
+    @State var cardCount = 4
+    
     var body: some View {
         VStack {
-            HStack {
-                CardView(imageName: "suit.spade.fill",
-                         isFaceUp: false)
-                CardView(imageName: "suit.spade.fill",
-                         isFaceUp: true)
-                CardView(imageName: "suit.diamond.fill",
-                         isFaceUp: true)
-                CardView(imageName: "suit.diamond.fill",
-                         isFaceUp: true)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem()]) {
+                    ForEach(cardFaces[0..<cardCount], id: \.self) { cardFace in
+                        CardView(imageName: cardFace,
+                                 isFaceUp: true)
+                        .aspectRatio(2/3, contentMode: .fit)
+                    }
+                    .foregroundColor(.orange)
+                }
             }
+            
             HStack {
-                CardView(imageName: "suit.heart.fill",
-                         isFaceUp: true)
-                CardView(imageName: "suit.heart.fill",
-                         isFaceUp: true)
-                CardView(imageName: "suit.club.fill",
-                         isFaceUp: true)
-                CardView(imageName: "suit.club.fill",
-                         isFaceUp: false)
+                remove
+                Spacer()
+                add
             }
-            HStack {
-                CardView(imageName: "star.fill",
-                         isFaceUp: true)
-                CardView(imageName: "star.fill",
-                         isFaceUp: false)
-                CardView(imageName: "suit.diamond",
-                         isFaceUp: true)
-                CardView(imageName: "suit.diamond",
-                         isFaceUp: true)
-            }
-            HStack {
-                CardView(imageName: "star.square.fill",
-                         isFaceUp: true)
-                CardView(imageName: "star.square.fill",
-                         isFaceUp: true)
-                CardView(imageName: "heart.circle.fill",
-                         isFaceUp: false)
-                CardView(imageName: "heart.circle.fill",
-                         isFaceUp: true)
-            }
+            .font(.largeTitle)
         }
         .padding(.horizontal)
-        
+    }
+    var add: some View {
+        Button {
+            if cardCount < cardFaces.count {
+                cardCount += 1
+            }
+        } label: {
+            Image(systemName: "plus.circle")
+        }
+    }
+    var remove: some View {
+        Button {
+            if cardCount > 1 {
+                cardCount -= 1
+            }
+        } label: {
+            Image(systemName: "minus.circle")
+        }
     }
 }
 
@@ -73,17 +71,16 @@ struct CardView: View {
                     .fill()
                     .foregroundColor(.white)
                 RoundedRectangle(cornerRadius: 25)
-                    .stroke(lineWidth: 3)
-                    .foregroundColor(.orange)
-                Image(systemName: imageName).renderingMode(.original)
+                    .strokeBorder(lineWidth: 3)
+                Image(systemName: imageName)
+                    .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .padding(20)
+                    .padding(10)
             }
             else{
                 RoundedRectangle(cornerRadius: 25)
                     .fill()
-                    .foregroundColor(.orange)
             }
         }
         .onTapGesture {
